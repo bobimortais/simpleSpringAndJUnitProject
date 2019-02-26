@@ -3,8 +3,9 @@ package com.test.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.test.entity.TestEntity;
 import com.test.service.TestService;
 
@@ -32,8 +33,8 @@ public class TestController
 	@ResponseBody
     public String setEntity(@RequestBody TestEntity entity)
 	{
-		System.out.print(entity.getId());
-		System.out.print(entity.getName());
+		System.out.println(entity.getId());
+		System.out.println(entity.getName());
         return "Entity Created!";
     }
 }
