@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import com.test.entity.TestEntity;
 
 @RunWith(SpringRunner.class)
@@ -49,6 +49,16 @@ public class TestEndPointsWithRestTemplate
     {
     	TestEntity response = this.restTemplate.getForObject("http://localhost:" + port + "/testEntity",TestEntity.class);
     	assertFalse(response.getId() == 0);
+    }
+	
+    @Test
+    public void testPostEntity() throws Exception
+    {
+    	TestEntity inputEntity = new TestEntity();
+		inputEntity.setId(1);
+		inputEntity.setName("Ronaldo");
+    	ResponseEntity<String> response = this.restTemplate.postForEntity("http://localhost:" + port + "/setEntity", inputEntity, String.class);
+    	assertTrue(response.getBody().toString().equals("Entity Created!"));
     }
     
 }
