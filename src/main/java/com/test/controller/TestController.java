@@ -27,4 +27,13 @@ public class TestController
 	{
         return testService.getTestEntity();
     }
+	
+	@PostMapping(value="/setEntity")
+	@ResponseBody
+    public String setEntity(@RequestBody TestEntity entity)
+	{
+		System.out.print(entity.getId());
+		System.out.print(entity.getName());
+        return "Entity Created!";
+    }
 }
