@@ -36,19 +36,24 @@ public class TestEndPointsWithMockMvc
     }
 	
 	@Test
-    public void testHomeResponseFalse() throws Exception {
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON);
-		MvcResult result = this.mockMvc.perform(requestBuilder).andReturn();
-        String responseMessage = result.getResponse().getContentAsString();
-        assertFalse(responseMessage.equals("Ronaldo"));
-    }
-	
-	@Test
-    public void testHomeResponseObject() throws Exception {
+    public void testEntityResponseObject() throws Exception {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/testEntity");
 		MvcResult result = this.mockMvc.perform(requestBuilder).andReturn();
         TestEntity response = objectMapper.readValue(result.getResponse().getContentAsString(), TestEntity.class);
         assertTrue(response.getName().equals("Test Entity"));
+    }
+	
+	@Test
+    public void testPostUrl() throws Exception {
+		TestEntity inputEntity = new TestEntity();
+		inputEntity.setId(1);
+		inputEntity.setName("Ronaldo");
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/setEntity")
+										.content(objectMapper.writeValueAsString(inputEntity))
+										.contentType("application/json");
+		MvcResult result = this.mockMvc.perform(requestBuilder).andReturn();
+        String message = result.getResponse().getContentAsString();
+        assertTrue(message.equals("Entity Created!"));
     }
 	
 }
