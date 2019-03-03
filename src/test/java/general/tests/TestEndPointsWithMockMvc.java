@@ -1,5 +1,12 @@
 package general.tests;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -36,6 +43,14 @@ public class TestEndPointsWithMockMvc
     }
 	
 	@Test
+    public void testHomeResponseFalse() throws Exception {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON);
+		MvcResult result = this.mockMvc.perform(requestBuilder).andReturn();
+        String responseMessage = result.getResponse().getContentAsString();
+        assertFalse(responseMessage.equals("Ronaldo"));
+    }
+	
+	@Test
     public void testEntityResponseObject() throws Exception {
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/testEntity");
 		MvcResult result = this.mockMvc.perform(requestBuilder).andReturn();
@@ -56,4 +71,10 @@ public class TestEndPointsWithMockMvc
         assertTrue(message.equals("Entity Created!"));
     }
 	
+	@Test
+    public void testHomeUrlWithMatchers() throws Exception {
+		this.mockMvc.perform(get("/")).andDo(print())
+        .andExpect(content().string(containsString("Test Application")));
+    }
+
 }

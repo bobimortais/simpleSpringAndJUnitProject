@@ -7,13 +7,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.test.entity.TestEntity;
+import com.test.repo.TestEntityRepo;
 import com.test.service.TestService;
 
 @Controller
 public class TestController
-{
+{	
 	@Autowired
 	private TestService testService;
+	
+	@Autowired
+	private TestEntityRepo testEntityRepo;
 	
 	@GetMapping("/")
 	@ResponseBody
@@ -35,6 +39,12 @@ public class TestController
 	{
 		System.out.println(entity.getId());
 		System.out.println(entity.getName());
+		
+		testEntityRepo.save(entity);
+		TestEntity savedEntity = testEntityRepo.findById(entity.getId()).get();
+		System.out.println("Name of the saved entity is " + savedEntity.getName());
+		testEntityRepo.delete(savedEntity);
+		
         return "Entity Created!";
     }
 }

@@ -50,7 +50,7 @@ public class TestEndPointsWithRestTemplate
     	TestEntity response = this.restTemplate.getForObject("http://localhost:" + port + "/testEntity",TestEntity.class);
     	assertFalse(response.getId() == 0);
     }
-	
+    
     @Test
     public void testPostEntity() throws Exception
     {
